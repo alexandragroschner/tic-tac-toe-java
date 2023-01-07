@@ -2,6 +2,7 @@ package com.example.tictacto;
 
 import com.example.tictacto.model.Game;
 import com.example.tictacto.model.GameMode;
+import com.example.tictacto.model.GameSign;
 import com.example.tictacto.model.Player;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -83,7 +84,7 @@ public class PlayerSetupController {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }*/
-            game.addPlayer(new Player(name.getText(), true));
+            game.addPlayer(new Player(name.getText(), GameSign.SIGN_X));
             try {
                 loadGameView();
             } catch (IOException e) {
@@ -96,7 +97,14 @@ public class PlayerSetupController {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }*/
-            game.addPlayer(new Player(name.getText(), true));
+
+            // TBD: do this prettier
+            if (game.getPlayers().size() == 0) {
+                game.addPlayer(new Player(name.getText(), GameSign.SIGN_X));
+            } else {
+                game.addPlayer(new Player(name.getText(), GameSign.SIGN_O));
+            }
+
             System.out.println("Added player " + name.getText());
             name.setText("");
             if (game.isReady()) {

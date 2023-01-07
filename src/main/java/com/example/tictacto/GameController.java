@@ -1,10 +1,14 @@
 package com.example.tictacto;
 
 import com.example.tictacto.model.Game;
+import com.example.tictacto.model.GameSign;
+import com.example.tictacto.model.Player;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -17,7 +21,14 @@ public class GameController {
     private Game game;
 
     @FXML
-    private Label player1name;
+    private Label currentplayername;
+
+    @FXML
+    private GridPane gameField;
+    @FXML
+    private Button lt;
+    @FXML
+    private Button mt;
 
     public GameController(PlayerSetupController playerSetupController) {
         this.playerSetupController = playerSetupController;
@@ -43,8 +54,32 @@ public class GameController {
     @FXML
     private void initialize() {
         this.game = playerSetupController.getGame();
-        player1name.setText(game.getPlayers().get(0).getName());
-        System.out.println("name: " + game.getPlayers().get(0).getName());
 
+        lt.setOnAction(event -> clickLT());
+        mt.setOnAction(event -> clickLM());
+
+        currentplayername.setText(game.getPlayers().get(0).getName());
+        game.setCurrentPlayer(game.getPlayers().get(0));
+
+    }
+
+    private void clickLT() {
+        // change button label to sign of current player
+        // set sign in game.gameField array
+        // change currentplayer
+        lt.setText(game.getCurrentPlayer().getSign().toString());
+        updateGameAfterTurn(0,0, game.getCurrentPlayer().getSign(), game.getCurrentPlayer());
+    }
+
+    private void clickLM() {
+        mt.setText(game.getCurrentPlayer().getSign().toString());
+        updateGameAfterTurn(1,0, game.getCurrentPlayer().getSign(), game.getCurrentPlayer());
+    }
+
+    private void updateGameAfterTurn(int x, int y, GameSign sign, Player currentPlayer) {
+        game.getGameField()[x][y] = sign.toString();
+        game.switchPlayerTurn(currentPlayer);
+        System.out.println("Switched turns: current player is " + game.getCurrentPlayer());
+        System.out.println("                next player will be " + game.getNextPlayer());
     }
 }

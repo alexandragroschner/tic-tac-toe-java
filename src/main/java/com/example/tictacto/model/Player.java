@@ -2,11 +2,11 @@ package com.example.tictacto.model;
 
 public class Player {
     private String name;
-    private Boolean isCircle;
+    private GameSign sign;
 
-    public Player(String name, Boolean isCircle) {
+    public Player(String name, GameSign sign) {
         this.name = name;
-        this.isCircle = isCircle;
+        this.sign = sign;
     }
 
     public String getName() {
@@ -17,11 +17,11 @@ public class Player {
         this.name = name;
     }
 
-    public Boolean getCircle() {
-        return isCircle;
+    public GameSign getSign() {
+        return sign;
     }
 
-    public void setCircle(Boolean circle) {
-        isCircle = circle;
+    public void setSign(GameSign sign) {
+        this.sign = sign;
     }
 }

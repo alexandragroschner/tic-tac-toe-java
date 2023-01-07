@@ -7,7 +7,8 @@ public class Game {
     private String[][] gameField;
 
     private ArrayList<Player> players;
-    private Player nextTurn;
+    private Player currentPlayer;
+    private Player nextPlayer;
     private Boolean isOver;
     private Boolean isReady;
 
@@ -27,6 +28,9 @@ public class Game {
     public void addPlayer(Player player) throws Exception {
         if (players.size() < 2) {
             players.add(player);
+            if (players.size() == 1) {
+
+            }
         } else {
             throw new Exception("Too many players");
         }
@@ -48,12 +52,27 @@ public class Game {
         this.players = players;
     }
 
-    public Player getNextTurn() {
-        return nextTurn;
+    public Player getCurrentPlayer() {
+        return currentPlayer;
     }
 
-    public void setNextTurn(Player nextTurn) {
-        this.nextTurn = nextTurn;
+    public Player getNextPlayer() {
+        if (currentPlayer.equals(players.get(0))) {
+            return players.get(1);
+        } else {
+            return players.get(0);
+        }
+    }
+    public void setCurrentPlayer(Player currentPlayer) {
+        this.currentPlayer = currentPlayer;
+    }
+
+    public void switchPlayerTurn(Player currentPlayer) {
+        if (currentPlayer.equals(players.get(0))) {
+            setCurrentPlayer(players.get(1));
+        } else {
+            setCurrentPlayer(players.get(0));
+        }
     }
 
     public Boolean isOver() {
