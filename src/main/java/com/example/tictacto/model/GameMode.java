@@ -4,13 +4,18 @@ public enum GameMode {
     HVH("Human VS Human"),
     HVC("Human VS Computer");
 
-    private String mode;
+    private final String mode;
 
-    GameMode(String mode) {
+    GameMode(final String mode) {
         this.mode = mode;
     }
 
-    public String getGameMode() {
+    @Override
+    public String toString() {
         return mode;
     }
+
+    /*public String getGameMode() {
+        return mode;
+    }*/
 }

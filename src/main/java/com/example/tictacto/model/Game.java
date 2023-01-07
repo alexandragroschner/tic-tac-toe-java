@@ -14,6 +14,7 @@ public class Game {
     public Game() {
         players = new ArrayList<Player>();
         System.out.println("A new game was created");
+        System.out.println("Game mode is: " + mode);
     }
     public GameMode getMode() {
         return mode;
