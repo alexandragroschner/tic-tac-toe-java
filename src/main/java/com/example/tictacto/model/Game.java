@@ -16,6 +16,7 @@ public class Game {
         players = new ArrayList<Player>();
         System.out.println("A new game was created");
         System.out.println("Game mode is: " + mode);
+        gameField = new String[3][3];
     }
     public GameMode getMode() {
         return mode;
@@ -28,12 +29,126 @@ public class Game {
     public void addPlayer(Player player) throws Exception {
         if (players.size() < 2) {
             players.add(player);
-            if (players.size() == 1) {
-
+            // add a second computer player is mode is H vs C
+            if (players.size() == 1 && mode == GameMode.HVC) {
+                players.add(new Player( "Computer 1", GameSign.SIGN_O));
             }
         } else {
             throw new Exception("Too many players");
         }
+    }
+
+    public int makeTurn(int x, int y, Player currentPlayer) {
+        if (gameField[x][y] == null) {
+            gameField[x][y] = currentPlayer.getSign().toString();
+
+            switchPlayerTurn(currentPlayer);
+
+            if (getWinner() == null) {
+                System.out.println("no winner yet");
+            } else {
+                System.out.println("winner is: " + getWinner().toString());
+            }
+
+            // successful turn
+            return 1;
+        }
+        return 0;
+    }
+
+    public ArrayList<Integer> makeComputerPlayerTurn() {
+        System.out.println("turn by computer player");
+        ArrayList<Integer> position = new ArrayList<Integer>();
+
+        // just a test
+        position.add(0);
+        position.add(0);
+
+        // make this configurable
+        String sign = GameSign.SIGN_O.toString();
+
+
+
+        return position;
+    }
+
+    private GameSign getWinner() {
+        for (int i = 0; i < 3; i++) {
+            if (getRowWinner(i) != null) {
+                return getRowWinner(i);
+            }
+            if (getColWinner(i) != null) {
+                return getColWinner(i);
+            }
+        }
+        // either returns winner or null if no winner yet
+        return getDiagonalWinner();
+    }
+
+    private GameSign getRowWinner (int row) {
+        int countX = 0;
+        int countO = 0;
+        for (int i = 0; i < 3; i++) {
+            if (gameField[row][i] != null) {
+                if (gameField[row][i].equals(GameSign.SIGN_X.toString())) countX++;
+                if (gameField[row][i].equals(GameSign.SIGN_O.toString())) countO++;
+            }
+        }
+        if (countX == 3) return GameSign.SIGN_X;
+        if (countO == 3) return GameSign.SIGN_O;
+        return null;
+    }
+
+    private GameSign getColWinner (int col) {
+        int countX = 0;
+        int countO = 0;
+        for (int i = 0; i < 3; i++) {
+            if (gameField[i][col] != null) {
+                if (gameField[i][col].equals(GameSign.SIGN_X.toString())) countX++;
+                if (gameField[i][col].equals(GameSign.SIGN_O.toString())) countO++;
+            }
+        }
+        if (countX == 3) return GameSign.SIGN_X;
+        if (countO == 3) return GameSign.SIGN_O;
+        return null;
+    }
+
+    private GameSign getDiagonalWinner () {
+        int countX = 0;
+        int countO = 0;
+
+        for (int i = 0; i < 3; i++) {
+            if (gameField[i][i] != null) {
+                if (gameField[i][i].equals(GameSign.SIGN_X.toString())) countX++;
+                if (gameField[i][i].equals(GameSign.SIGN_O.toString())) countO++;
+            }
+        }
+        if (countX == 3) return GameSign.SIGN_X;
+        if (countO == 3) return GameSign.SIGN_O;
+
+        // reset counters for second diagonal
+        countX = 0;
+        countO = 0;
+
+        // modulo gets [0][2], [1][1], [2][0]
+        for (int i = 0; i < 3; i++) {
+            int y = (2 * i -1) % 3;
+            // turns negative remainder into modulo result
+            if (y<0) y += 2;
+
+            if (gameField[i][y] != null) {
+                if (gameField[i][y].equals(GameSign.SIGN_X.toString())) countX++;
+                if (gameField[i][y].equals(GameSign.SIGN_O.toString())) countO++;
+            }
+        }
+
+        if (countX == 3) return GameSign.SIGN_X;
+        if (countO == 3) return GameSign.SIGN_O;
+        return null;
+    }
+
+    private void getResult() {
+
     }
 
     public String[][] getGameField() {
