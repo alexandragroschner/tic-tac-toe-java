@@ -1,6 +1,7 @@
 package com.example.tictacto.model;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
@@ -8,7 +9,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class Game {
 
     private UUID id;
-    private LocalDate date;
+    private LocalDateTime date;
     private GameMode mode;
     private String[][] gameField;
 
@@ -20,7 +21,7 @@ public class Game {
 
     public Game() {
         id = UUID.randomUUID();
-        date = LocalDate.now();
+        date = LocalDateTime.now();
         players = new ArrayList<>();
         System.out.println("A new game was created");
         System.out.println("Game id is: " + id);
@@ -32,7 +33,7 @@ public class Game {
         this.players = players;
         this.mode = mode;
         id = UUID.randomUUID();
-        date = LocalDate.now();
+        date = LocalDateTime.now();
         gameField = new String[3][3];
 
         System.out.println("A new game was created");
@@ -42,7 +43,7 @@ public class Game {
         return mode;
     }
 
-    public LocalDate getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 

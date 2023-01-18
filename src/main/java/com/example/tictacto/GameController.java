@@ -204,8 +204,8 @@ public class GameController {
     }
 
     private void updateScores() {
-        player1gamesWon.setText(String.valueOf(game.getPlayers().get(0).getGamesWon()));
-        player2gamesWon.setText(String.valueOf(game.getPlayers().get(1).getGamesWon()));
+        player1gamesWon.setText(java.lang.String.valueOf(game.getPlayers().get(0).getGamesWon()));
+        player2gamesWon.setText(java.lang.String.valueOf(game.getPlayers().get(1).getGamesWon()));
     }
     private void endGame() throws Exception {
         errorLabel.setText("Winner is: " + game.getPlayerWithSign(game.getWinnerSign()).getName());
