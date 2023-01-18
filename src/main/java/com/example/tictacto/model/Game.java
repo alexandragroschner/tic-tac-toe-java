@@ -1,8 +1,14 @@
 package com.example.tictacto.model;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.UUID;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Game {
+
+    private UUID id;
+    private LocalDate date;
     private GameMode mode;
     private String[][] gameField;
 
@@ -13,13 +19,35 @@ public class Game {
     private Boolean isReady;
 
     public Game() {
-        players = new ArrayList<Player>();
+        id = UUID.randomUUID();
+        date = LocalDate.now();
+        players = new ArrayList<>();
         System.out.println("A new game was created");
-        System.out.println("Game mode is: " + mode);
+        System.out.println("Game id is: " + id);
         gameField = new String[3][3];
+    }
+
+    // constructor to restart a game with same players
+    public Game(ArrayList<Player> players, GameMode mode) {
+        this.players = players;
+        this.mode = mode;
+        id = UUID.randomUUID();
+        date = LocalDate.now();
+        gameField = new String[3][3];
+
+        System.out.println("A new game was created");
+        System.out.println("Game id is: " + id);
     }
     public GameMode getMode() {
         return mode;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public UUID getId() {
+        return id;
     }
 
     public void setMode(GameMode mode) {
@@ -72,7 +100,8 @@ public class Game {
         return position;
     }
 
-    public GameSign getWinner() {
+    // either returns winner or null if no winner yet
+    public GameSign getWinnerSign() {
         for (int i = 0; i < 3; i++) {
             if (getRowWinner(i) != null) {
                 return getRowWinner(i);
@@ -81,7 +110,7 @@ public class Game {
                 return getColWinner(i);
             }
         }
-        // either returns winner or null if no winner yet
+        System.out.println("no winner yet");
         return getDiagonalWinner();
     }
 
@@ -144,9 +173,10 @@ public class Game {
         for (int i = 0; i < 3; i++) {
             int y = (2 * i -1) % 3;
             // turns negative remainder into modulo result
-            if (y<0) y += 2;
-
+            if (y<0) y = 2;
+            System.out.println("checking: " + i + ", " + y);
             if (gameField[i][y] != null) {
+
                 if (gameField[i][y].equals(GameSign.SIGN_X.toString())) countX++;
                 if (gameField[i][y].equals(GameSign.SIGN_O.toString())) countO++;
             }
@@ -208,8 +238,11 @@ public class Game {
         System.out.println("Game has " + players.size() + " players");
         if (players == null || mode == null) {
             return false;
-        } else return players.size() == 2;
-
+        } else if (players.size() == 2) {
+            setCurrentPlayer(getRandomPlayer());
+            return true;
+        }
+        return false;
         /*
         if (players == null) {
             return false;
@@ -218,5 +251,11 @@ public class Game {
         }
         return false;
          */
+    }
+
+    private Player getRandomPlayer() {
+        int randomNum = ThreadLocalRandom.current().nextInt(0, 2);
+        System.out.println("random number was: " + randomNum);
+        return players.get(randomNum);
     }
 }
