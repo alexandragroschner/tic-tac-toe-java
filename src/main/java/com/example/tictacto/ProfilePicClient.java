@@ -11,24 +11,14 @@ import javafx.scene.image.ImageView;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.StringUtils;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class ProfilePicClient extends Service<ProfilePic> {
     public ProfilePicClient(ImageView profilePic) {
         setOnSucceeded(new EventHandler<WorkerStateEvent>() {
             @Override
             public void handle(WorkerStateEvent workerStateEvent) {
-                System.out.println("will set url to: " + ((ProfilePic)workerStateEvent.getSource().getValue()).getUrl());
                 profilePic.setImage(new Image(((ProfilePic)workerStateEvent.getSource().getValue()).getUrl()));
             }
         });

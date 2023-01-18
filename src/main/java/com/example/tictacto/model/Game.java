@@ -30,9 +30,9 @@ public class Game {
         if (players.size() < 2) {
             players.add(player);
             // add a second computer player is mode is H vs C
-            if (players.size() == 1 && mode == GameMode.HVC) {
+            /*if (players.size() == 1 && mode == GameMode.HVC) {
                 players.add(new Player( "Computer 1", GameSign.SIGN_O));
-            }
+            }*/
         } else {
             throw new Exception("Too many players");
         }

@@ -11,6 +11,8 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
@@ -48,6 +50,15 @@ public class GameController {
     private Button rt;
     @FXML
     private Button rb;
+    @FXML
+    private ImageView player1pic;
+    @FXML
+    private ImageView player2pic;
+    @FXML
+    private Label player1name;
+    @FXML
+    private Label player2name;
+
     public GameController(PlayerSetupController playerSetupController) {
         this.playerSetupController = playerSetupController;
 
@@ -82,8 +93,14 @@ public class GameController {
         rm.setOnAction(event -> clickRM());
         rb.setOnAction(event -> clickRB());
 
-        currentplayername.setText(game.getPlayers().get(0).getName());
         game.setCurrentPlayer(game.getPlayers().get(0));
+
+        // display stuff
+        currentplayername.setText(game.getPlayers().get(0).getName());
+        player1pic.setImage(new Image(game.getPlayers().get(0).getProfilePicUrl()));
+        player1name.setText(game.getPlayers().get(0).getName());
+        player2pic.setImage(new Image(game.getPlayers().get(1).getProfilePicUrl()));
+        player2name.setText(game.getPlayers().get(1).getName());
 
         //getNodeByRowColumnIndex(0,0,gameField).setText("bla");
 

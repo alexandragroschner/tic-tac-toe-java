@@ -11,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
@@ -91,7 +92,9 @@ public class PlayerSetupController {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }*/
-            game.addPlayer(new Player(name.getText(), GameSign.SIGN_X));
+            game.addPlayer(new Player(name.getText(), GameSign.SIGN_X, profilePic.getImage().getUrl()));
+            game.addPlayer(new Player("Computer 1", GameSign.SIGN_O, new ProfilePicClient(profilePic).getProfilePic().getUrl()));
+
             try {
                 loadGameView();
             } catch (IOException e) {
@@ -107,13 +110,16 @@ public class PlayerSetupController {
 
             // TBD: do this prettier
             if (game.getPlayers().size() == 0) {
-                game.addPlayer(new Player(name.getText(), GameSign.SIGN_X));
+                game.addPlayer(new Player(name.getText(), GameSign.SIGN_X, profilePic.getImage().getUrl()));
             } else {
-                game.addPlayer(new Player(name.getText(), GameSign.SIGN_O));
+                game.addPlayer(new Player(name.getText(), GameSign.SIGN_O, profilePic.getImage().getUrl()));
             }
 
             System.out.println("Added player " + name.getText());
             name.setText("");
+            profilePic.setImage(new Image("loading.png"));
+            new ProfilePicClient(profilePic).start();
+
             if (game.isReady()) {
                 try {
                     loadGameView();
