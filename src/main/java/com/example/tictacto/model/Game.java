@@ -44,11 +44,11 @@ public class Game {
 
             switchPlayerTurn(currentPlayer);
 
-            if (getWinner() == null) {
+            /*if (getWinner() == null) {
                 System.out.println("no winner yet");
             } else {
                 System.out.println("winner is: " + getWinner().toString());
-            }
+            }*/
 
             // successful turn
             return 1;
@@ -58,7 +58,7 @@ public class Game {
 
     public ArrayList<Integer> makeComputerPlayerTurn() {
         System.out.println("turn by computer player");
-        ArrayList<Integer> position = new ArrayList<Integer>();
+        ArrayList<Integer> position = new ArrayList<>();
 
         // just a test
         position.add(0);
@@ -72,7 +72,7 @@ public class Game {
         return position;
     }
 
-    private GameSign getWinner() {
+    public GameSign getWinner() {
         for (int i = 0; i < 3; i++) {
             if (getRowWinner(i) != null) {
                 return getRowWinner(i);
@@ -83,6 +83,16 @@ public class Game {
         }
         // either returns winner or null if no winner yet
         return getDiagonalWinner();
+    }
+
+    public Player getPlayerWithSign(GameSign sign) throws Exception {
+        if (players.get(0).getSign() == sign) {
+            return players.get(0);
+        } else if (players.get(1).getSign() == sign){
+            return players.get(1);
+        } else {
+            throw new Exception("No player found with that sign");
+        }
     }
 
     private GameSign getRowWinner (int row) {

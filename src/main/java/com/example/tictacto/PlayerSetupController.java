@@ -11,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -33,6 +34,9 @@ public class PlayerSetupController {
 
     @FXML
     private Button next;
+
+    @FXML
+    private ImageView profilePic;
 
     public PlayerSetupController(InitController initController) {
         this.initController = initController;
@@ -66,7 +70,10 @@ public class PlayerSetupController {
         chosenModeText.setText(initController.getChosenGameMode());
         this.game = initController.getGame();
 
+        new ProfilePicClient(profilePic).start();
+
     }
+
 
     public Game getGame() {
         return this.game;
