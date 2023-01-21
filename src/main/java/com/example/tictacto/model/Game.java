@@ -259,4 +259,14 @@ public class Game {
         System.out.println("random number was: " + randomNum);
         return players.get(randomNum);
     }
+
+    public boolean isTie() {
+        int signCounter = 0;
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (gameField[i][j] != null) signCounter++;
+            }
+        }
+        return signCounter == 9;
+    }
 }

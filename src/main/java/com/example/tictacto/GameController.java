@@ -217,6 +217,21 @@ public class GameController {
         updateScores();
     }
 
+    private void endTieGame() {
+        errorLabel.setText("It's a tie!");
+        currentplayername.setText("");
+        currentplayerlabel.setText("");
+
+    }
+
+    private void endGameIfOver(Game game) throws Exception {
+        if (game.getWinnerSign() != null) {
+            endGame();
+        } else if (game.isTie()) {
+            endTieGame();
+        }
+    }
+
     private void clickLT() throws Exception {
         if (game.makeTurn(0,0, game.getCurrentPlayer()) == 1) {
             // change button label to sign of current player
@@ -224,9 +239,7 @@ public class GameController {
             lt.setDisable(true);
             currentplayername.setText(game.getCurrentPlayer().getName() + "with sign: " + game.getCurrentPlayer().getSign());
 
-            if (game.getWinnerSign() != null) {
-                endGame();
-            }
+            endGameIfOver(game);
 
             if (game.getMode() == GameMode.HVC) {
                 getNodeByRowColumnIndex(game.makeComputerPlayerTurn(), gameField).setText("bla");
@@ -243,9 +256,7 @@ public class GameController {
             lm.setDisable(true);
             currentplayername.setText(game.getCurrentPlayer().getName() + "with sign: " + game.getCurrentPlayer().getSign());
 
-            if (game.getWinnerSign() != null) {
-                endGame();
-            }
+            endGameIfOver(game);
         } else {
             errorLabel.setText("Field already set. Try another one");
         }
@@ -257,9 +268,7 @@ public class GameController {
             lb.setDisable(true);
             currentplayername.setText(game.getCurrentPlayer().getName() + "with sign: " + game.getCurrentPlayer().getSign());
 
-            if (game.getWinnerSign() != null) {
-                endGame();
-            }
+            endGameIfOver(game);
         } else {
             errorLabel.setText("Field already set. Try another one");
         }
@@ -271,9 +280,7 @@ public class GameController {
             mt.setDisable(true);
             currentplayername.setText(game.getCurrentPlayer().getName() + "with sign: " + game.getCurrentPlayer().getSign());
 
-            if (game.getWinnerSign() != null) {
-                endGame();
-            }
+            endGameIfOver(game);
         } else {
             errorLabel.setText("Field already set. Try another one");
         }
@@ -285,9 +292,7 @@ public class GameController {
             mm.setDisable(true);
             currentplayername.setText(game.getCurrentPlayer().getName() + "with sign: " + game.getCurrentPlayer().getSign());
 
-            if (game.getWinnerSign() != null) {
-                endGame();
-            }
+            endGameIfOver(game);
         } else {
             errorLabel.setText("Field already set. Try another one");
         }
@@ -299,9 +304,7 @@ public class GameController {
             mb.setDisable(true);
             currentplayername.setText(game.getCurrentPlayer().getName() + "with sign: " + game.getCurrentPlayer().getSign());
 
-            if (game.getWinnerSign() != null) {
-                endGame();
-            }
+            endGameIfOver(game);
         } else {
             errorLabel.setText("Field already set. Try another one");
         }
@@ -313,9 +316,7 @@ public class GameController {
             rt.setDisable(true);
             currentplayername.setText(game.getCurrentPlayer().getName() + "with sign: " + game.getCurrentPlayer().getSign());
 
-            if (game.getWinnerSign() != null) {
-                endGame();
-            }
+            endGameIfOver(game);
         } else {
             errorLabel.setText("Field already set. Try another one");
         }
@@ -327,9 +328,7 @@ public class GameController {
             rm.setDisable(true);
             currentplayername.setText(game.getCurrentPlayer().getName() + "with sign: " + game.getCurrentPlayer().getSign());
 
-            if (game.getWinnerSign() != null) {
-                endGame();
-            }
+            endGameIfOver(game);
         } else {
             errorLabel.setText("Field already set. Try another one");
         }
@@ -341,9 +340,7 @@ public class GameController {
             rb.setDisable(true);
             currentplayername.setText(game.getCurrentPlayer().getName() + "with sign: " + game.getCurrentPlayer().getSign());
 
-            if (game.getWinnerSign() != null) {
-                endGame();
-            }
+            endGameIfOver(game);
         } else {
             errorLabel.setText("Field already set. Try another one");
         }
