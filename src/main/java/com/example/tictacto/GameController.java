@@ -29,7 +29,7 @@ public class GameController {
     @FXML
     private Label currentplayerlabel;
     @FXML
-    private Label errorLabel;
+    private Label infoLabel;
     @FXML
     private GridPane gameField;
     @FXML
@@ -200,7 +200,7 @@ public class GameController {
         }
 
         currentplayername.setText(game.getCurrentPlayer().getName());
-        errorLabel.setText("");
+        infoLabel.setText("");
 
         // trigger initial computer player turn if necessary
         if (game.getMode() == GameMode.HVC && game.getCurrentPlayer() instanceof ComputerPlayer) {
@@ -213,7 +213,7 @@ public class GameController {
         player2gamesWon.setText("Games won:\n" + game.getPlayers().get(1).getGamesWon());
     }
     private void endGame() throws Exception {
-        errorLabel.setText("Winner is: " + game.getPlayerWithSign(game.getWinnerSign()).getName());
+        infoLabel.setText("Winner is: " + game.getPlayerWithSign(game.getWinnerSign()).getName());
         currentplayername.setText("");
         currentplayerlabel.setText("");
 
@@ -226,10 +226,9 @@ public class GameController {
     }
 
     private void endTieGame() {
-        errorLabel.setText("It's a tie!");
+        infoLabel.setText("It's a tie!");
         currentplayername.setText("");
         currentplayerlabel.setText("");
-
     }
 
     private void endGameIfOver(Game game) throws Exception {
@@ -265,7 +264,7 @@ public class GameController {
             lt.setDisable(true);
             clickAction(game);
         } else {
-            errorLabel.setText("Field already set. Try another one");
+            infoLabel.setText("Field already set. Try another one");
         }
     }
 
@@ -276,7 +275,7 @@ public class GameController {
             lm.setDisable(true);
             clickAction(game);
         } else {
-            errorLabel.setText("Field already set. Try another one");
+            infoLabel.setText("Field already set. Try another one");
         }
     }
     private void clickLB() throws Exception {
@@ -286,7 +285,7 @@ public class GameController {
             lb.setDisable(true);
             clickAction(game);
         } else {
-            errorLabel.setText("Field already set. Try another one");
+            infoLabel.setText("Field already set. Try another one");
         }
     }
     private void clickMT() throws Exception {
@@ -296,7 +295,7 @@ public class GameController {
             mt.setDisable(true);
             clickAction(game);
         } else {
-            errorLabel.setText("Field already set. Try another one");
+            infoLabel.setText("Field already set. Try another one");
         }
     }
     private void clickMM() throws Exception {
@@ -306,7 +305,7 @@ public class GameController {
             mm.setDisable(true);
             clickAction(game);
         } else {
-            errorLabel.setText("Field already set. Try another one");
+            infoLabel.setText("Field already set. Try another one");
         }
     }
     private void clickMB() throws Exception {
@@ -316,7 +315,7 @@ public class GameController {
             mb.setDisable(true);
             clickAction(game);
         } else {
-            errorLabel.setText("Field already set. Try another one");
+            infoLabel.setText("Field already set. Try another one");
         }
     }
     private void clickRT() throws Exception {
@@ -326,7 +325,7 @@ public class GameController {
             rt.setDisable(true);
             clickAction(game);
         } else {
-            errorLabel.setText("Field already set. Try another one");
+            infoLabel.setText("Field already set. Try another one");
         }
     }
     private void clickRM() throws Exception {
@@ -336,7 +335,7 @@ public class GameController {
             rm.setDisable(true);
             clickAction(game);
         } else {
-            errorLabel.setText("Field already set. Try another one");
+            infoLabel.setText("Field already set. Try another one");
         }
     }
     private void clickRB() throws Exception {
@@ -346,7 +345,7 @@ public class GameController {
             rb.setDisable(true);
             clickAction(game);
         } else {
-            errorLabel.setText("Field already set. Try another one");
+            infoLabel.setText("Field already set. Try another one");
         }
     }
 

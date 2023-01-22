@@ -35,7 +35,7 @@
          </children>
       </GridPane>
       <Label fx:id="currentplayerlabel" layoutX="325.0" layoutY="285.0" text="Current Player:" />
-      <Label fx:id="errorLabel" layoutX="282.0" layoutY="59.0" />
+      <Label fx:id="infoLabel" layoutX="282.0" layoutY="59.0" />
       <Label layoutX="35.0" layoutY="67.0" text="Player 1:" />
       <Label layoutX="582.0" layoutY="67.0" text="Player 2:" />
       <Label fx:id="player1name" layoutX="114.0" layoutY="67.0" text="NONE" />

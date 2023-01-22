@@ -84,7 +84,7 @@ public class PlayerSetupController {
             new ProfilePicClient(profilePic).start();
 
         } else {
-            System.out.println("Got: " + chosenModeText.getText());
+            throw new Exception("Something wrong with the game mode");
         }
 
         if (game.isReady()) {
