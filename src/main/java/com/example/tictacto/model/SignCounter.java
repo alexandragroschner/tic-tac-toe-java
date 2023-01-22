@@ -38,7 +38,6 @@ public class SignCounter {
             int y = (2 * i -1) % 3;
             // turns negative remainder into modulo result
             if (y<0) y = 2;
-            //System.out.println("checking: " + i + ", " + y);
             if (gameField[i][y] != null) {
                 if (gameField[i][y].equals(sign.toString())) count++;
             }

@@ -7,18 +7,7 @@ import java.io.IOException;
 
 public class HelloApplication extends Application {
     @Override
-    public void start(Stage stage) throws IOException {
-
-        /*Game game = new Game();
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("init.fxml"));
-        Parent root = fxmlLoader.load();
-        Scene scene = new Scene(root, 600, 400);
-        GameController gameController = fxmlLoader.getController();
-        gameController.setGameInstance(game,stage);
-        stage.setTitle("TIC TAC TOE!");
-        stage.setScene(scene);
-        stage.show(); */
-
+    public void start(Stage stage) {
         InitController initController = new InitController();
         initController.showStage();
     }

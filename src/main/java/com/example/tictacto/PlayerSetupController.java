@@ -16,23 +16,15 @@ import java.io.IOException;
 
 public class PlayerSetupController {
 
-    private Stage thisStage;
+    private final Stage thisStage;
     private final InitController initController;
     private Game game;
-
-    private Stage stage;
-    private Scene scene;
-    private Parent root;
-
     @FXML
     Label chosenModeText;
-
     @FXML
     private TextField name;
-
     @FXML
     private Button next;
-
     @FXML
     private ImageView profilePic;
 
@@ -67,11 +59,9 @@ public class PlayerSetupController {
         });
         chosenModeText.setText(initController.getChosenGameMode());
         this.game = initController.getGame();
-
         new ProfilePicClient(profilePic).start();
 
     }
-
 
     public Game getGame() {
         return this.game;
@@ -84,21 +74,12 @@ public class PlayerSetupController {
     protected void onNextClick() throws Exception {
         if (chosenModeText.getText().equals(GameMode.HVC.toString())) {
             System.out.println("H VS C");
-            /*try {
-                loadPlayerSetup(GameMode.HVC.toString());
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }*/
+
             game.addPlayer(new HumanPlayer(name.getText(), GameSign.SIGN_X, profilePic.getImage().getUrl()));
             game.addPlayer(new ComputerPlayer("Computer 1", GameSign.SIGN_O, new ProfilePicClient(profilePic).getProfilePic().getUrl()));
 
         } else if (chosenModeText.getText().equals(GameMode.HVH.toString())) {
             System.out.println("H VS H");
-            /*try {
-                loadPlayerSetup(GameMode.HVH.toString());
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }*/
 
             // TBD: do this prettier
             if (game.getPlayers().size() == 0) {
@@ -123,57 +104,10 @@ public class PlayerSetupController {
                 throw new RuntimeException(e);
             }
         }
-
-    }
-
-    private void loadPlayerSetup(String mode) throws IOException {
-        //FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("setup-player.fxml"));
-        /*Parent root = FXMLLoader.load(getClass().getResource("setup-player.fxml"));
-        Scene scene = hVSh.getScene();
-        scene.setRoot(root);
-        */
-        /*try {
-            fxmlLoader.load();
-        } catch (IOException exception) {
-            throw new RuntimeException(exception);
-        }*/
-        /*fxmlLoader.setController(this);
-
-        Stage window = (Stage) hVSh.getScene().getWindow();
-        //chosenModeText.setText(mode);
-        window.setScene(new Scene(fxmlLoader.load(), 600, 400)); */
-
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("setup-player.fxml"));
-        root = loader.load();
-        //GameController gameController = loader.getController();
-        //gameController.setGameInstance(game, this.stage);
-        //root = FXMLLoader.load(getClass().getResource("setup-player.fxml"));
-
-        PlayerSetupController playerSetupController = loader.getController();
-        playerSetupController.setChosenGameMode(mode);
-
-        //stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        Stage stage = new Stage();
-        stage.setScene(new Scene(root));
-        stage.show();
-
     }
 
     private void loadGameView() throws IOException {
-        //root = FXMLLoader.load(getClass().getResource("game-view.fxml"));
-        //FXMLLoader loader = new FXMLLoader(getClass().getResource("game-view.fxml"));
-        //root = loader.load();
-        //GameController gameController = loader.getController();
-        //PlayerSetupController playerSetupController = loader.getController();
-
-        //stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-
-        /*Stage stage = new Stage();
-        stage.setScene(new Scene(root));
-        stage.show();*/
-
         GameController gameController = new GameController((this));
         gameController.showStage();
     }
-
 }

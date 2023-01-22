@@ -123,7 +123,6 @@ public class ComputerPlayer extends Player{
             }
         }
 
-
         if (countSignInUpDiagonal(opponent, game.getGameField()) == 0) {
             for (int i = 0; i < 3; i++) {
                 int y = (2 * i -1) % 3;

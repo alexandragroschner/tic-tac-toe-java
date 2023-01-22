@@ -1,6 +1,5 @@
 package com.example.tictacto.model;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.UUID;
@@ -10,23 +9,18 @@ import static com.example.tictacto.model.SignCounter.*;
 
 public class Game {
 
-    private UUID id;
-    private LocalDateTime date;
+    private final UUID id;
+    private final LocalDateTime date;
     private GameMode mode;
     private String[][] gameField;
-
     private ArrayList<Player> players;
     private Player currentPlayer;
-    private Player nextPlayer;
-    private Boolean isOver;
-    private Boolean isReady;
 
     public Game() {
         id = UUID.randomUUID();
         date = LocalDateTime.now();
         players = new ArrayList<>();
         System.out.println("A new game was created");
-        System.out.println("Game id is: " + id);
         gameField = new String[3][3];
     }
 
@@ -39,7 +33,6 @@ public class Game {
         gameField = new String[3][3];
 
         System.out.println("A new game was created");
-        System.out.println("Game id is: " + id);
     }
     public GameMode getMode() {
         return mode;
@@ -60,10 +53,6 @@ public class Game {
     public void addPlayer(Player player) throws Exception {
         if (players.size() < 2) {
             players.add(player);
-            // add a second computer player is mode is H vs C
-            /*if (players.size() == 1 && mode == GameMode.HVC) {
-                players.add(new Player( "Computer 1", GameSign.SIGN_O));
-            }*/
         } else {
             throw new Exception("Too many players");
         }
@@ -79,7 +68,6 @@ public class Game {
                 return getColWinner(i);
             }
         }
-        System.out.println("no winner yet");
         return getDiagonalWinner();
     }
 
@@ -114,24 +102,12 @@ public class Game {
         return null;
     }
 
-    private void getResult() {
-
-    }
-
     public String[][] getGameField() {
         return gameField;
     }
 
-    public void setGameField(String[][] gameField) {
-        this.gameField = gameField;
-    }
-
     public ArrayList<Player> getPlayers() {
         return players;
-    }
-
-    public void setPlayers(ArrayList<Player> players) {
-        this.players = players;
     }
 
     public Player getCurrentPlayer() {
@@ -157,10 +133,6 @@ public class Game {
         }
     }
 
-    public Boolean isOver() {
-        return isOver;
-    }
-
     public Boolean isReady() {
         System.out.println("Game has " + players.size() + " players");
         if (players == null || mode == null) {
@@ -174,7 +146,6 @@ public class Game {
 
     private Player getRandomPlayer() {
         int randomNum = ThreadLocalRandom.current().nextInt(0, 2);
-        System.out.println("random number was: " + randomNum);
         return players.get(randomNum);
     }
 

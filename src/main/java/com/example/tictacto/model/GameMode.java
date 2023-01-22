@@ -14,8 +14,4 @@ public enum GameMode {
     public String toString() {
         return mode;
     }
-
-    /*public String getGameMode() {
-        return mode;
-    }*/
 }

@@ -3,17 +3,13 @@ package com.example.tictacto.model;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SequenceWriter;
-import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.UUID;
 
 public class PlayerStat {
@@ -27,35 +23,8 @@ public class PlayerStat {
         this.date = date;
         this.opponentName = opponentName;
     }
-
-    public LocalDateTime getDate() {
-        return date;
-    }
-
-    public String getOpponentName() {
-        return opponentName;
-    }
-
-    public void setGameID(UUID gameID) {
-        this.gameID = gameID;
-    }
-
     public UUID getGameID() {
         return gameID;
-    }
-
-    public void setDate(LocalDateTime date) {
-        this.date = date;
-    }
-
-    public void setOpponentName(String opponentName) {
-        this.opponentName = opponentName;
-    }
-
-    public String writeToJson() throws JsonProcessingException {
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.findAndRegisterModules();
-        return mapper.writeValueAsString(this);
     }
 
     public void writeToFile(String filename) throws IOException {

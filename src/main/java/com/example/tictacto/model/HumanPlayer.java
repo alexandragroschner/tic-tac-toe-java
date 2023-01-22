@@ -20,8 +20,6 @@ public class HumanPlayer extends Player{
         if (game.getGameField()[x][y] == null) {
             game.getGameField()[x][y] = game.getCurrentPlayer().getSign().toString();
 
-            System.out.println("Human placed on: " + x + y);
-
             game.switchPlayerTurn(game.getCurrentPlayer());
 
             // successful turn
@@ -38,11 +36,6 @@ public class HumanPlayer extends Player{
         PlayerStat stat = new PlayerStat(game.getId(), game.getDate(), game.getCurrentPlayer().getName());
         stats.add(new PlayerStat(game.getId(), game.getDate(), game.getCurrentPlayer().getName()));
 
-        System.out.println("JSON: " + stat.writeToJson());
         stat.writeToFile(this.getName());
-
-        /*for (PlayerStat s: stats) {
-            System.out.println(s.getGameID() + ", " + s.getDate() + ", " + s.getOpponent().getName());
-        }*/
     }
 }
