@@ -3,14 +3,14 @@
 ## Features
 
 * 2 game modes
-  * Human vs human: 2 players are created one of the other and can play against each other
-  * Human vs computer: only 1 player is manually created. An additional computer player is automatically added and will make moves according to the implemented algorithm.
+  * Human vs human: 2 players are created one after the other and can play against each other
+  * Human vs computer: only 1 player is manually created. An additional computer player is automatically added and will make moves according to the implemented algorithm
 
 * Player statistics
   * statistics are only calculated and saved for human players
   * for each player a statistic file (naming: `<playername>.json`) is saved
   * for each won game the gameID, the date and the opponent are saved in the json
-  * while playing the amount of won games of the *current* session are displayed under the player name
+  * while playing the amount of won games of the **current** session are displayed under the player name
 
 * Player profile pictures
   * all players get randomly chosen profile pictures from the [Cat as a Service API](https://cataas.com)
