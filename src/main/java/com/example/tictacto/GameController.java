@@ -178,9 +178,9 @@ public class GameController {
 
         // display initial game view (sets profile pics and names)
         player1pic.setImage(new Image(game.getPlayers().get(0).getProfilePicUrl()));
-        player1name.setText(game.getPlayers().get(0).getName());
+        player1name.setText(game.getPlayers().get(0).getName() + " with sign: " + game.getPlayers().get(0).getSign());
         player2pic.setImage(new Image(game.getPlayers().get(1).getProfilePicUrl()));
-        player2name.setText(game.getPlayers().get(1).getName());
+        player2name.setText(game.getPlayers().get(1).getName() + " with sign: " + game.getPlayers().get(1).getSign());
         updateScores();
 
         // make initial computerplayer move
@@ -278,12 +278,14 @@ public class GameController {
     private void clickAction(Game game) throws Exception {
         if (game.getMode() == GameMode.HVC) {
             ArrayList<Integer> position = ((ComputerPlayer) game.getCurrentPlayer()).makeTurn(game);
-            if (position == null) endTieGame();
+            if (position == null) {
+                endTieGame();
+                return;
+            }
             getNodeByRowColumnIndex(position, gameField).setText(game.getNextPlayer().getSign().toString());
             getNodeByRowColumnIndex(position, gameField).setDisable(true);
-        } else {
-            currentplayername.setText(game.getCurrentPlayer().getName() + "with sign: " + game.getCurrentPlayer().getSign());
         }
+        currentplayername.setText(game.getCurrentPlayer().getName());
         endGameIfOver(game);
     }
 

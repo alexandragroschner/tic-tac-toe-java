@@ -6,12 +6,13 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane prefHeight="400.0" prefWidth="749.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="400.0" prefWidth="798.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label fx:id="currentplayername" layoutX="358.0" layoutY="311.0" text="none" />
-      <GridPane fx:id="gameField" alignment="TOP_CENTER" gridLinesVisible="true" layoutX="263.0" layoutY="153.0" prefHeight="106.0" prefWidth="254.0">
+      <Label fx:id="currentplayername" alignment="CENTER" contentDisplay="CENTER" layoutX="358.0" layoutY="311.0" text="none" textAlignment="CENTER" />
+      <GridPane fx:id="gameField" alignment="CENTER" gridLinesVisible="true" layoutX="263.0" layoutY="153.0" prefHeight="106.0" prefWidth="254.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -23,27 +24,31 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button fx:id="lt" mnemonicParsing="false" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-            <Button fx:id="mt" mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-            <Button fx:id="rt" mnemonicParsing="false" GridPane.columnIndex="2" GridPane.rowIndex="0" />
-            <Button fx:id="lm" mnemonicParsing="false" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-            <Button fx:id="rb" mnemonicParsing="false" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-            <Button fx:id="rm" mnemonicParsing="false" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-            <Button fx:id="mm" mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <Button fx:id="mb" mnemonicParsing="false" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <Button fx:id="lb" mnemonicParsing="false" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+            <Button fx:id="lt" alignment="CENTER" contentDisplay="CENTER" minHeight="40.0" minWidth="80.0" mnemonicParsing="false" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="0" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS" />
+            <Button fx:id="mt" alignment="CENTER" contentDisplay="CENTER" minHeight="40.0" minWidth="80.0" mnemonicParsing="false" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="0" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS" />
+            <Button fx:id="rt" alignment="CENTER" contentDisplay="CENTER" minHeight="40.0" minWidth="80.0" mnemonicParsing="false" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="0" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS" />
+            <Button fx:id="lm" alignment="CENTER" contentDisplay="CENTER" minHeight="40.0" minWidth="80.0" mnemonicParsing="false" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS" />
+            <Button fx:id="rb" alignment="CENTER" contentDisplay="CENTER" minHeight="40.0" minWidth="80.0" mnemonicParsing="false" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS" />
+            <Button fx:id="rm" alignment="CENTER" contentDisplay="CENTER" minHeight="40.0" minWidth="80.0" mnemonicParsing="false" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS" />
+            <Button fx:id="mm" alignment="CENTER" contentDisplay="CENTER" minHeight="40.0" minWidth="80.0" mnemonicParsing="false" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS" />
+            <Button fx:id="mb" alignment="CENTER" contentDisplay="CENTER" minHeight="40.0" minWidth="80.0" mnemonicParsing="false" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS" />
+            <Button fx:id="lb" alignment="CENTER" contentDisplay="CENTER" minHeight="40.0" minWidth="80.0" mnemonicParsing="false" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS" />
          </children>
       </GridPane>
       <Label fx:id="currentplayerlabel" layoutX="325.0" layoutY="285.0" text="Current Player:" />
-      <Label fx:id="infoLabel" layoutX="282.0" layoutY="59.0" />
       <Label layoutX="35.0" layoutY="67.0" text="Player 1:" />
-      <Label layoutX="582.0" layoutY="67.0" text="Player 2:" />
-      <Label fx:id="player1name" layoutX="114.0" layoutY="67.0" text="NONE" />
-      <Label fx:id="player2name" layoutX="657.0" layoutY="67.0" text="NONE" />
-      <ImageView fx:id="player1pic" fitHeight="124.0" fitWidth="140.0" layoutX="35.0" layoutY="91.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="player2pic" fitHeight="118.0" fitWidth="140.0" layoutX="582.0" layoutY="91.0" pickOnBounds="true" preserveRatio="true" />
+      <Label layoutX="601.0" layoutY="67.0" text="Player 2:" />
+      <Label fx:id="player1name" layoutX="38.0" layoutY="93.0" text="NONE" />
+      <Label fx:id="player2name" layoutX="601.0" layoutY="93.0" text="NONE" />
+      <ImageView fx:id="player1pic" fitHeight="124.0" fitWidth="140.0" layoutX="37.0" layoutY="117.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="player2pic" fitHeight="124.0" fitWidth="140.0" layoutX="603.0" layoutY="117.0" pickOnBounds="true" preserveRatio="true" />
       <Button fx:id="newGame" layoutX="321.0" layoutY="353.0" mnemonicParsing="false" text="Restart Game" />
       <Label fx:id="player1gamesWon" layoutX="35.0" layoutY="259.0" />
-      <Label fx:id="player2gamesWon" layoutX="582.0" layoutY="251.0" />
+      <Label fx:id="player2gamesWon" layoutX="601.0" layoutY="251.0" />
+      <HBox alignment="CENTER" layoutX="263.0" layoutY="33.0" prefHeight="100.0" prefWidth="254.0">
+         <children>
+            <Label fx:id="infoLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="16.0" prefWidth="70.0" textAlignment="CENTER" />
+         </children>
+      </HBox>
    </children>
 </AnchorPane>
