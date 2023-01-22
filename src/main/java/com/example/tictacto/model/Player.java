@@ -14,10 +14,6 @@ public abstract class Player {
         this.profilePicUrl = profilePicUrl;
     }
 
-    public void setSign(GameSign sign) {
-        this.sign = sign;
-    }
-
     public String getName() {
         return name;
     }
