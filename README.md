@@ -16,6 +16,10 @@
   * all players get randomly chosen profile pictures from the [Cat as a Service API](https://cataas.com)
   * the profile pictures are loaded in a separate thread during player creation and displayed during the game
 
+* Choice of game sign
+  * while setting up the player the desired game sign can be chosen via a drop-down menu
+  * the second player can only choose the remaining free game sign (for a computer player this sign is chosen automatically)
+
 ## GUI
 
 The GUI is implemented with JavaFX.
