@@ -17,7 +17,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
 
-
+/**
+ * A fxml controller class connected to game-view.fxml
+ * It gets the created game with its players for the PlayerSetupController.
+ * It reacts to turns made on the GUI and maps them to actions on the Game class.
+ */
 public class GameController {
 
     private Stage thisStage;
@@ -67,6 +71,7 @@ public class GameController {
     private Label player2gamesWon;
 
     public GameController(PlayerSetupController playerSetupController) {
+        // gets the PlayerSetupController instance so it has access to the previously created game
         this.playerSetupController = playerSetupController;
 
         thisStage = new Stage();
@@ -171,7 +176,7 @@ public class GameController {
             }
         });
 
-        // display stuff
+        // display initial game view (sets profile pics and names)
         player1pic.setImage(new Image(game.getPlayers().get(0).getProfilePicUrl()));
         player1name.setText(game.getPlayers().get(0).getName());
         player2pic.setImage(new Image(game.getPlayers().get(1).getProfilePicUrl()));
@@ -186,13 +191,18 @@ public class GameController {
         currentplayername.setText(game.getCurrentPlayer().getName());
     }
 
+    /**
+     * Resets GUI and created new game with same players and mode as last game
+     * @throws Exception
+     */
     private void newGame() throws Exception {
+        // reset grid
         for (Button b: buttons) {
             b.setText("");
             b.setDisable(false);
         }
         currentplayerlabel.setText("Current Player:");
-
+        // create new games with same players and mode
         game = new Game(game.getPlayers(), game.getMode());
 
         if (!game.isReady()) {
@@ -212,6 +222,12 @@ public class GameController {
         player1gamesWon.setText("Games won:\n" + game.getPlayers().get(0).getGamesWon());
         player2gamesWon.setText("Games won:\n" + game.getPlayers().get(1).getGamesWon());
     }
+
+    /**
+     * Updates GUI after a game results in a win
+     * Informs a Human Player about his win (for statistics)
+     * @throws Exception
+     */
     private void endGame() throws Exception {
         infoLabel.setText("Winner is: " + game.getPlayerWithSign(game.getWinnerSign()).getName());
         currentplayername.setText("");
@@ -231,6 +247,12 @@ public class GameController {
         currentplayerlabel.setText("");
     }
 
+    /**
+     * Calls approriate end function of game (tie or not) if the game ended
+     * Disables all buttons.
+     * @param game
+     * @throws Exception
+     */
     private void endGameIfOver(Game game) throws Exception {
         if (game.getWinnerSign() != null) {
             for (Button b: buttons) {
@@ -245,6 +267,14 @@ public class GameController {
         }
     }
 
+    /**
+     * Collects all actions after a button was clicked.
+     * If game mode is "Human vs Computer" triggers a computer player turn and sets the resulting button to its sign.
+     * Otherwise just switches displaying the current player name.
+     * Calls check for ending the game.
+     * @param game
+     * @throws Exception
+     */
     private void clickAction(Game game) throws Exception {
         if (game.getMode() == GameMode.HVC) {
             ArrayList<Integer> position = ((ComputerPlayer) game.getCurrentPlayer()).makeTurn(game);
@@ -349,6 +379,12 @@ public class GameController {
         }
     }
 
+    /**
+     * Takes a position and the gridPane of the gamefield as parameters and returns the button on the provided position
+     * @param position
+     * @param gridPane
+     * @return the instance of the button on the given position
+     */
     // gets a specific button by providing a position array of the gameField
     public Button getNodeByRowColumnIndex (ArrayList<Integer> position, GridPane gridPane) {
         Node result = null;

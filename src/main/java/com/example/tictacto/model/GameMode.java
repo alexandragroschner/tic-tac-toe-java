@@ -1,5 +1,8 @@
 package com.example.tictacto.model;
 
+/**
+ * Enum for existing game modes
+ */
 public enum GameMode {
     HVH("Human VS Human"),
     HVC("Human VS Computer");

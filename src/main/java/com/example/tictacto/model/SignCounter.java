@@ -1,5 +1,8 @@
 package com.example.tictacto.model;
 
+/**
+ * Helper class with static methods to more easily count how many signs are in a given row, column, diagonal
+ */
 public class SignCounter {
     static public int countSignsInCol(GameSign sign, int col, String[][] gameField) {
         int count = 0;

@@ -7,6 +7,9 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import static com.example.tictacto.model.SignCounter.*;
 
+/**
+ * class that represents tic tac toe game
+ */
 public class Game {
 
     private final UUID id;
@@ -16,6 +19,9 @@ public class Game {
     private ArrayList<Player> players;
     private Player currentPlayer;
 
+    /**
+     * Default constructor that initialized game
+     */
     public Game() {
         id = UUID.randomUUID();
         date = LocalDateTime.now();
@@ -24,7 +30,11 @@ public class Game {
         gameField = new String[3][3];
     }
 
-    // constructor to restart a game with same players
+    /**
+     * constructor that can be used to start a new game with given players and game mode (for restarts)
+     * @param players
+     * @param mode
+     */
     public Game(ArrayList<Player> players, GameMode mode) {
         this.players = players;
         this.mode = mode;
@@ -50,6 +60,12 @@ public class Game {
         this.mode = mode;
     }
 
+    /**
+     * Adds players to game.
+     * The first added player always gets GameSign X, the second one GameSign O
+     * @param player
+     * @throws Exception
+     */
     public void addPlayer(Player player) throws Exception {
         if (players.size() < 2) {
             if (players.size() == 0) {
@@ -63,7 +79,10 @@ public class Game {
         }
     }
 
-    // either returns winner or null if no winner yet
+    /**
+     * Gets GameSign of Winner
+     * @return GameSign of Winner or null if there is no winner yet
+     */
     public GameSign getWinnerSign() {
         for (int i = 0; i < 3; i++) {
             if (getRowWinner(i) != null) {
@@ -76,6 +95,12 @@ public class Game {
         return getDiagonalWinner();
     }
 
+    /**
+     * Gets player with given GameSign
+     * @param sign
+     * @return player
+     * @throws Exception
+     */
     public Player getPlayerWithSign(GameSign sign) throws Exception {
         if (players.get(0).getSign() == sign) {
             return players.get(0);
@@ -130,6 +155,10 @@ public class Game {
         this.currentPlayer = currentPlayer;
     }
 
+    /**
+     * Can be used to switch the current player after a turn
+     * @param currentPlayer
+     */
     public void switchPlayerTurn(Player currentPlayer) {
         if (currentPlayer.equals(players.get(0))) {
             setCurrentPlayer(players.get(1));
@@ -138,8 +167,12 @@ public class Game {
         }
     }
 
+    /**
+     * Game is ready if it has 2 players and a mode
+     * If it is ready a random player is chosen for the first turn
+     * @return
+     */
     public Boolean isReady() {
-        System.out.println("Game has " + players.size() + " players");
         if (players == null || mode == null) {
             return false;
         } else if (players.size() == 2) {

@@ -1,5 +1,8 @@
 package com.example.tictacto.model;
 
+/**
+ * Abstract class that serves can be used as super class by specific player subclasses
+ */
 public abstract class Player {
     private String name;
     private GameSign sign;

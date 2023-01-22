@@ -4,13 +4,17 @@ import com.example.tictacto.model.Game;
 import com.example.tictacto.model.GameMode;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 
+/**
+ * A fxml controller class connected to init.fxml
+ * Class for initial choice of game mode
+ * Creates first instance of game
+ */
 public class InitController {
 
     private final Stage thisStage;
@@ -58,6 +62,11 @@ public class InitController {
         }
     }
 
+    /**
+     * Sets the mode on the previously created game and loads the player setup by creating the PlayerSetupController
+     * @param mode
+     * @throws IOException
+     */
     private void loadPlayerSetup(GameMode mode) throws IOException {
         game.setMode(mode);
         PlayerSetupController playerSetupController = new PlayerSetupController(this);

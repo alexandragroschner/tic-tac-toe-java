@@ -12,6 +12,9 @@ import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+/**
+ * Class that represents a player statistic entry and writes them to json
+ */
 public class PlayerStat {
 
     private UUID gameID;
@@ -27,6 +30,13 @@ public class PlayerStat {
         return gameID;
     }
 
+    /**
+     * Writes statistic entry for a given playername
+     * If file does not exist, creates a new one.
+     * If file already exists, reads json and appends to it.
+     * @param filename
+     * @throws IOException
+     */
     public void writeToFile(String filename) throws IOException {
         File file = new File(System.getProperty("user.dir") + "/src/main/resources/" + filename + ".json");
 
@@ -41,9 +51,10 @@ public class PlayerStat {
 
         // if file exists read json and append to it
         if (input != null) {
-            // read existing root node form file
+            // read existing root node from file
             JsonNode rootNode = mapper.readTree(input);
 
+            // add new stat entry to node
             ((ObjectNode) rootNode).set(gameID.toString(), statObject);
             mapper.writerWithDefaultPrettyPrinter().writeValue(file, rootNode);
         } else {

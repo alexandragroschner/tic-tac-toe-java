@@ -3,6 +3,10 @@ package com.example.tictacto.model;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * Class that extends Player super class.
+ * Adds player statistics to Player
+ */
 public class HumanPlayer extends Player{
 
     private ArrayList<PlayerStat> stats;

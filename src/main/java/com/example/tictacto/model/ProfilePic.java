@@ -1,5 +1,8 @@
 package com.example.tictacto.model;
 
+/**
+ * class for profile picture
+ */
 public class ProfilePic {
 
     String url;

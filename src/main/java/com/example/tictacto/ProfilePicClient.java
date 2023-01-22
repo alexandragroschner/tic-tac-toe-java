@@ -14,11 +14,15 @@ import org.apache.commons.lang3.StringUtils;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+/**
+ * class to retrieve a new profile picture from Cat as a Service API
+ */
 public class ProfilePicClient extends Service<ProfilePic> {
     public ProfilePicClient(ImageView profilePic) {
         setOnSucceeded(new EventHandler<WorkerStateEvent>() {
             @Override
             public void handle(WorkerStateEvent workerStateEvent) {
+                // sets the image url for the provided GUI element
                 profilePic.setImage(new Image(((ProfilePic)workerStateEvent.getSource().getValue()).getUrl()));
             }
         });
@@ -34,6 +38,11 @@ public class ProfilePicClient extends Service<ProfilePic> {
         };
     }
 
+    /**
+     * Gets a random pic from the Cat as a Service API and returns it as type ProfilePic
+     * @return ProfilePic with fetched picture URL
+     * @throws Exception
+     */
     public ProfilePic getProfilePic() throws Exception {
 
         String apiUrl = "https://cataas.com";

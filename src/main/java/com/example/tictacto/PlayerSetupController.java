@@ -3,7 +3,6 @@ package com.example.tictacto;
 import com.example.tictacto.model.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -14,13 +13,19 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+/**
+ * A fxml controller class connected to setup-player.fxml
+ * Class to handle setting up Human and/or Computer players
+ * Setup includes choosing a name for Human players and loading profile pictures
+ */
+
 public class PlayerSetupController {
 
     private final Stage thisStage;
     private final InitController initController;
     private Game game;
     @FXML
-    Label chosenModeText;
+    private Label chosenModeText;
     @FXML
     private TextField name;
     @FXML
@@ -29,6 +34,7 @@ public class PlayerSetupController {
     private ImageView profilePic;
 
     public PlayerSetupController(InitController initController) {
+        // gets the Initcontroller instance so it has access to the previously created game
         this.initController = initController;
 
         thisStage = new Stage();
@@ -59,6 +65,7 @@ public class PlayerSetupController {
         });
         chosenModeText.setText(initController.getChosenGameMode());
         this.game = initController.getGame();
+        // loads new profile picture
         new ProfilePicClient(profilePic).start();
 
     }
@@ -67,18 +74,25 @@ public class PlayerSetupController {
         return this.game;
     }
 
+    /**
+     * Depending on chosen game mode creates either 2 Human Players or 1 Human and 1 Computer Player automically
+     * @throws Exception
+     */
     @FXML
     protected void onNextClick() throws Exception {
+        // Human vs Computer mode
         if (chosenModeText.getText().equals(GameMode.HVC.toString())) {
             System.out.println("H VS C");
 
             game.addPlayer(new HumanPlayer(name.getText(), profilePic.getImage().getUrl()));
+            // automatically add computer player with a new profile pic
             game.addPlayer(new ComputerPlayer(new ProfilePicClient(profilePic).getProfilePic().getUrl()));
 
         } else if (chosenModeText.getText().equals(GameMode.HVH.toString())) {
             System.out.println("H VS H");
 
             game.addPlayer(new HumanPlayer(name.getText(), profilePic.getImage().getUrl()));
+            // reset name label and load new profile pic for second player
             name.setText("");
             profilePic.setImage(new Image("loading.png"));
             new ProfilePicClient(profilePic).start();
@@ -86,7 +100,7 @@ public class PlayerSetupController {
         } else {
             throw new Exception("Something wrong with the game mode");
         }
-
+        // loads the game view as soon as the game is ready to be played
         if (game.isReady()) {
             try {
                 loadGameView();

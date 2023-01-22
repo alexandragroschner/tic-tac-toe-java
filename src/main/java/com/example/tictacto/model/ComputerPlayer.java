@@ -4,6 +4,10 @@ import java.util.ArrayList;
 
 import static com.example.tictacto.model.SignCounter.*;
 
+/**
+ * Class that extends Player super class.
+ * Implements algorithm to make automatic turns.
+ */
 public class ComputerPlayer extends Player{
     public ComputerPlayer(String profilePicUrl) {
         super("Computer Player", profilePicUrl);
@@ -14,11 +18,17 @@ public class ComputerPlayer extends Player{
         return "no game stats for computer players";
     }
 
+    /**
+     *
+     * @param game
+     * @return position to place computer player sign on or null of no win can be made anymore
+     */
     public ArrayList<Integer> makeTurn(Game game) {
 
         System.out.println("turn by computer player");
         ArrayList<Integer> position;
 
+        // get the GameSign of the opponent
         GameSign opponentSign;
         if (this.getSign().equals(GameSign.SIGN_X)) {
             opponentSign = GameSign.SIGN_O;
@@ -26,36 +36,41 @@ public class ComputerPlayer extends Player{
             opponentSign = GameSign.SIGN_X;
         }
 
-        // check if myself is almost winning
+        // check if this player is almost winning
         position = preventOrMakeWin(this.getSign(), game);
         if (position != null) {
             game.switchPlayerTurn(game.getCurrentPlayer());
-            System.out.println("making a win with: " + position.get(0) + position.get(1));
             return position;
         }
 
-        // check if opponent is almost winning
+        // check if opponent is almost winning and prevent that
         position = preventOrMakeWin(opponentSign, game);
         if (position != null) {
             game.switchPlayerTurn(game.getCurrentPlayer());
-            System.out.println("preventing a win with: " + position.get(0) + position.get(1));
             return position;
         }
 
+        // make a move that could lead to a win
         position = makeNextMove(opponentSign, game);
         game.switchPlayerTurn(game.getCurrentPlayer());
-        if (position != null ) System.out.println("making next move with: " + position.get(0) + position.get(1));
-
         return position;
     }
 
+    /**
+     * Can be used to check if a given sign is almost winning i.e. has 2 sign in either a row, column or diagonal
+     * If the sign this player is passed, it will check if current player is almost winning and if yes, make the win
+     * If the sign of the opponents player is passed, it will check if this player is almost loosing and will prevent that by placing this players sign
+     * @param sign
+     * @param game
+     * @return position to make/prevent win or null if none could be found
+     */
     private ArrayList<Integer> preventOrMakeWin(GameSign sign, Game game) {
         ArrayList<Integer> position = new ArrayList<>();
-        // if this player is almost winning 1. Diagonal, make/prevent the win
+        // if player is almost winning 1. Diagonal, make/prevent the win
         if (countSignInDownDiagonal(sign, game.getGameField()) == 2) {
             for (int i = 0; i < 3; i++) {
                 if (game.getGameField()[i][i] == null) {
-                    game.getGameField()[i][i] = this.getSign().toString();  //before sign
+                    game.getGameField()[i][i] = this.getSign().toString();
                     position.add(i);
                     position.add(i);
                     return position;
@@ -63,13 +78,12 @@ public class ComputerPlayer extends Player{
             }
         }
 
-        // if this player is almost winning 2. Diagonal, make the win
+        // if player is almost winning 2. Diagonal, make/prevent the win
         if (countSignInUpDiagonal(sign, game.getGameField()) == 2) {
             for (int i = 0; i < 3; i++) {
                 int y = (2 * i -1) % 3;
                 // turns negative remainder into modulo result
                 if (y<0) y = 2;
-                //System.out.println("checking: " + i + ", " + y);
                 if (game.getGameField()[i][y] == null) {
                     game.getGameField()[i][y] = this.getSign().toString();
                     position.add(i);
@@ -79,7 +93,7 @@ public class ComputerPlayer extends Player{
             }
         }
 
-        // if this player almost won one of the columns, make the win
+        // if player almost won one of the columns, make/prevent the win
         for (int c = 0; c < 3; c++) {
             if (countSignsInCol(sign, c, game.getGameField()) == 2) {
                 for (int i = 0; i < 3; i++) {
@@ -93,7 +107,7 @@ public class ComputerPlayer extends Player{
             }
         }
 
-        // if this player almost won one of the rows, make the win
+        // if player almost won one of the rows, make/prevent the win
         for (int r = 0; r < 3; r++) {
             if (countSignsInRow(sign, r, game.getGameField()) == 2) {
                 for (int i = 0; i < 3; i++) {
@@ -109,6 +123,12 @@ public class ComputerPlayer extends Player{
         return null;
     }
 
+    /**
+     * checks all possibilities (rows, columns, diagonals) for potential wins i.e. no sign of the opponent and sets its sign
+     * @param opponent GameSign of opponent
+     * @param game
+     * @return position to put sign on or null of no win is possible anymore
+     */
     private ArrayList<Integer> makeNextMove(GameSign opponent, Game game) {
         ArrayList<Integer> position = new ArrayList<>();
 

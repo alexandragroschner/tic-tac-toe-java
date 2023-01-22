@@ -1,5 +1,8 @@
 package com.example.tictacto.model;
 
+/**
+ * Enum for existing game signs
+ */
 public enum GameSign {
 
     SIGN_X("X"),
