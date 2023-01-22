@@ -43,24 +43,23 @@ public class InitController {
     }
 
     protected void onHVSHButtonClick() {
-        game.setMode(GameMode.HVH);
         try {
-            loadPlayerSetup(GameMode.HVH.toString());
+            loadPlayerSetup(GameMode.HVH);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
     protected void onHVSCButtonClick() {
-        game.setMode(GameMode.HVC);
         try {
-            loadPlayerSetup(GameMode.HVC.toString());
+            loadPlayerSetup(GameMode.HVC);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    private void loadPlayerSetup(String mode) throws IOException {
+    private void loadPlayerSetup(GameMode mode) throws IOException {
+        game.setMode(mode);
         PlayerSetupController playerSetupController = new PlayerSetupController(this);
         playerSetupController.showStage();
     }
