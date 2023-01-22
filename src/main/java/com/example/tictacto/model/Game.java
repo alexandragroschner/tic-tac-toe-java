@@ -68,11 +68,6 @@ public class Game {
      */
     public void addPlayer(Player player) throws Exception {
         if (players.size() < 2) {
-            if (players.size() == 0) {
-                player.setSign(GameSign.SIGN_X);
-            } else {
-                player.setSign(GameSign.SIGN_O);
-            }
             players.add(player);
         } else {
             throw new Exception("Too many players");
@@ -180,6 +175,19 @@ public class Game {
             return true;
         }
         return false;
+    }
+
+    /**
+     * Returns the GameSign that wasn't chosen yet for remaining player.
+     * @return sign that is still free or null if all or no sign is free.
+     */
+    public GameSign getRemainingFreeSign() {
+        if (players.size() == 1) {
+            System.out.println("player 1 has sign: " + players.get(0).getSign().toString());
+            if (players.get(0).getSign() == GameSign.SIGN_X) return GameSign.SIGN_O;
+            if (players.get(0).getSign() == GameSign.SIGN_O) return GameSign.SIGN_X;
+        }
+        return null;
     }
 
     private Player getRandomPlayer() {

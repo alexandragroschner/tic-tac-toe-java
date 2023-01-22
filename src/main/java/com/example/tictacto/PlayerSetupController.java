@@ -1,10 +1,13 @@
 package com.example.tictacto;
 
 import com.example.tictacto.model.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -12,6 +15,8 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Objects;
+import java.util.SimpleTimeZone;
 
 /**
  * A fxml controller class connected to setup-player.fxml
@@ -24,6 +29,7 @@ public class PlayerSetupController {
     private final Stage thisStage;
     private final InitController initController;
     private Game game;
+    private ObservableList<String> signChoices = FXCollections.observableArrayList(GameSign.SIGN_X.toString(), GameSign.SIGN_O.toString());
     @FXML
     private Label chosenModeText;
     @FXML
@@ -32,6 +38,10 @@ public class PlayerSetupController {
     private Button next;
     @FXML
     private ImageView profilePic;
+    @FXML
+    private ChoiceBox signChoice;
+    @FXML
+    private Label errorLabel;
 
     public PlayerSetupController(InitController initController) {
         // gets the Initcontroller instance so it has access to the previously created game
@@ -65,6 +75,7 @@ public class PlayerSetupController {
         });
         chosenModeText.setText(initController.getChosenGameMode());
         this.game = initController.getGame();
+        signChoice.setItems(signChoices);
         // loads new profile picture
         new ProfilePicClient(profilePic).start();
 
@@ -80,23 +91,37 @@ public class PlayerSetupController {
      */
     @FXML
     protected void onNextClick() throws Exception {
+        if (name.getText().isEmpty()) {
+            errorLabel.setText("You need to enter a name!");
+            return;
+        } else if (signChoice.getValue() == null) {
+            errorLabel.setText("You need to choose a sign!");
+            return;
+        }
         // Human vs Computer mode
         if (chosenModeText.getText().equals(GameMode.HVC.toString())) {
             System.out.println("H VS C");
 
-            game.addPlayer(new HumanPlayer(name.getText(), profilePic.getImage().getUrl()));
+            game.addPlayer(new HumanPlayer(name.getText(), GameSign.valueOf("SIGN_" + signChoice.getValue().toString()), profilePic.getImage().getUrl()));
             // automatically add computer player with a new profile pic
-            game.addPlayer(new ComputerPlayer(new ProfilePicClient(profilePic).getProfilePic().getUrl()));
+            game.addPlayer(new ComputerPlayer(game.getRemainingFreeSign(), new ProfilePicClient(profilePic).getProfilePic().getUrl()));
 
         } else if (chosenModeText.getText().equals(GameMode.HVH.toString())) {
             System.out.println("H VS H");
+            game.addPlayer(new HumanPlayer(name.getText(), GameSign.valueOf("SIGN_" + signChoice.getValue().toString()), profilePic.getImage().getUrl()));
 
-            game.addPlayer(new HumanPlayer(name.getText(), profilePic.getImage().getUrl()));
             // reset name label and load new profile pic for second player
-            name.setText("");
-            profilePic.setImage(new Image("loading.png"));
-            new ProfilePicClient(profilePic).start();
+            if (game.getPlayers().size() == 1) {
+                name.setText("");
+                profilePic.setImage(new Image("loading.png"));
+                new ProfilePicClient(profilePic).start();
 
+                ObservableList<String> leftChoices;
+                leftChoices = FXCollections.observableArrayList(game.getRemainingFreeSign().toString());
+
+                signChoice.setItems(leftChoices);
+                signChoice.setValue(leftChoices.get(0));
+            }
         } else {
             throw new Exception("Something wrong with the game mode");
         }

@@ -8,8 +8,9 @@ public abstract class Player {
     private GameSign sign;
     private String profilePicUrl;
 
-    public Player(String name, String profilePicUrl) {
+    public Player(String name, GameSign sign, String profilePicUrl) {
         this.name = name;
+        this.sign = sign;
         this.profilePicUrl = profilePicUrl;
     }
 
@@ -17,7 +18,7 @@ public abstract class Player {
         this.sign = sign;
     }
 
-    public java.lang.String getName() {
+    public String getName() {
         return name;
     }
 
@@ -27,7 +28,7 @@ public abstract class Player {
         return sign;
     }
 
-    public java.lang.String getProfilePicUrl() {
+    public String getProfilePicUrl() {
         return profilePicUrl;
     }
 }

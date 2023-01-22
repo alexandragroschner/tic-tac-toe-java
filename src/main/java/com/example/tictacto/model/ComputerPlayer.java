@@ -9,8 +9,8 @@ import static com.example.tictacto.model.SignCounter.*;
  * Implements algorithm to make automatic turns.
  */
 public class ComputerPlayer extends Player{
-    public ComputerPlayer(String profilePicUrl) {
-        super("Computer Player", profilePicUrl);
+    public ComputerPlayer(GameSign sign, String profilePicUrl) {
+        super("Computer Player", sign, profilePicUrl);
     }
 
     @Override
