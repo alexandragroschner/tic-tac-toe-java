@@ -1,13 +1,19 @@
 package com.example.tictacto.model;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SequenceWriter;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 public class PlayerStat {
@@ -53,8 +59,35 @@ public class PlayerStat {
     }
 
     public void writeToFile(String filename) throws IOException {
-        FileWriter myWriter = new FileWriter( "src/main/resources/playerstats/" + filename + ".json", true);
-        myWriter.write(writeToJson() + System.lineSeparator());
-        myWriter.close();
+        File file = new File(System.getProperty("user.dir") + "/src/main/resources/" + filename + ".json");
+
+        InputStream input = PlayerStat.class.getClassLoader()
+                .getResourceAsStream(filename + ".json");
+
+        ObjectMapper mapper = new ObjectMapper();
+        ObjectNode statObject = mapper.createObjectNode();
+
+        statObject.put("date", this.date.toString());
+        statObject.put("opponent", this.opponentName);
+
+        // if file exists read json and append to it
+        if (input != null) {
+            // read existing root node form file
+            JsonNode rootNode = mapper.readTree(input);
+
+            ((ObjectNode) rootNode).set(gameID.toString(), statObject);
+            mapper.writerWithDefaultPrettyPrinter().writeValue(file, rootNode);
+        } else {
+            // create a new root node
+            ObjectNode rootNode = mapper.createObjectNode();
+
+            rootNode.set(gameID.toString(), statObject);
+
+            // create non-existing file
+            Path newFilePath = Paths.get("src/main/resources/" + filename + ".json");
+            Files.createFile(newFilePath);
+
+            mapper.writerWithDefaultPrettyPrinter().writeValue(file, rootNode);
+        }
     }
 }
