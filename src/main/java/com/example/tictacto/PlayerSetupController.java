@@ -66,29 +66,19 @@ public class PlayerSetupController {
     public Game getGame() {
         return this.game;
     }
-    public void setChosenGameMode(String mode) {
-        chosenModeText.setText(mode);
-    }
 
     @FXML
     protected void onNextClick() throws Exception {
         if (chosenModeText.getText().equals(GameMode.HVC.toString())) {
             System.out.println("H VS C");
 
-            game.addPlayer(new HumanPlayer(name.getText(), GameSign.SIGN_X, profilePic.getImage().getUrl()));
-            game.addPlayer(new ComputerPlayer("Computer 1", GameSign.SIGN_O, new ProfilePicClient(profilePic).getProfilePic().getUrl()));
+            game.addPlayer(new HumanPlayer(name.getText(), profilePic.getImage().getUrl()));
+            game.addPlayer(new ComputerPlayer(new ProfilePicClient(profilePic).getProfilePic().getUrl()));
 
         } else if (chosenModeText.getText().equals(GameMode.HVH.toString())) {
             System.out.println("H VS H");
 
-            // TBD: do this prettier
-            if (game.getPlayers().size() == 0) {
-                game.addPlayer(new HumanPlayer(name.getText(), GameSign.SIGN_X, profilePic.getImage().getUrl()));
-            } else {
-                game.addPlayer(new HumanPlayer(name.getText(), GameSign.SIGN_O, profilePic.getImage().getUrl()));
-            }
-
-            System.out.println("Added player " + name.getText());
+            game.addPlayer(new HumanPlayer(name.getText(), profilePic.getImage().getUrl()));
             name.setText("");
             profilePic.setImage(new Image("loading.png"));
             new ProfilePicClient(profilePic).start();

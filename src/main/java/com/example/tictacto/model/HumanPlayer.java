@@ -6,8 +6,8 @@ import java.util.ArrayList;
 public class HumanPlayer extends Player{
 
     private ArrayList<PlayerStat> stats;
-    public HumanPlayer(String name, GameSign sign, String profilePicUrl) {
-        super(name, sign, profilePicUrl);
+    public HumanPlayer(String name, String profilePicUrl) {
+        super(name, profilePicUrl);
         stats = new ArrayList<>();
     }
 

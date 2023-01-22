@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import static com.example.tictacto.model.SignCounter.*;
 
 public class ComputerPlayer extends Player{
-    public ComputerPlayer(String name, GameSign sign, String profilePicUrl) {
-        super(name, sign, profilePicUrl);
+    public ComputerPlayer(String profilePicUrl) {
+        super("Computer Player", profilePicUrl);
     }
 
     @Override

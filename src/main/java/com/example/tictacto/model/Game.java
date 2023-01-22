@@ -52,6 +52,11 @@ public class Game {
 
     public void addPlayer(Player player) throws Exception {
         if (players.size() < 2) {
+            if (players.size() == 0) {
+                player.setSign(GameSign.SIGN_X);
+            } else {
+                player.setSign(GameSign.SIGN_O);
+            }
             players.add(player);
         } else {
             throw new Exception("Too many players");

@@ -5,10 +5,13 @@ public abstract class Player {
     private GameSign sign;
     private String profilePicUrl;
 
-    public Player(String name, GameSign sign, String profilePicUrl) {
+    public Player(String name, String profilePicUrl) {
         this.name = name;
-        this.sign = sign;
         this.profilePicUrl = profilePicUrl;
+    }
+
+    public void setSign(GameSign sign) {
+        this.sign = sign;
     }
 
     public java.lang.String getName() {
