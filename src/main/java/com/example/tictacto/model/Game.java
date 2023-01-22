@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
+import static com.example.tictacto.model.SignCounter.*;
+
 public class Game {
 
     private UUID id;
@@ -67,40 +69,6 @@ public class Game {
         }
     }
 
-    public int makeTurn(int x, int y, Player currentPlayer) {
-        if (gameField[x][y] == null) {
-            gameField[x][y] = currentPlayer.getSign().toString();
-
-            switchPlayerTurn(currentPlayer);
-
-            /*if (getWinner() == null) {
-                System.out.println("no winner yet");
-            } else {
-                System.out.println("winner is: " + getWinner().toString());
-            }*/
-
-            // successful turn
-            return 1;
-        }
-        return 0;
-    }
-
-    public ArrayList<Integer> makeComputerPlayerTurn() {
-        System.out.println("turn by computer player");
-        ArrayList<Integer> position = new ArrayList<>();
-
-        // just a test
-        position.add(0);
-        position.add(0);
-
-        // make this configurable
-        String sign = GameSign.SIGN_O.toString();
-
-
-
-        return position;
-    }
-
     // either returns winner or null if no winner yet
     public GameSign getWinnerSign() {
         for (int i = 0; i < 3; i++) {
@@ -126,65 +94,23 @@ public class Game {
     }
 
     private GameSign getRowWinner (int row) {
-        int countX = 0;
-        int countO = 0;
-        for (int i = 0; i < 3; i++) {
-            if (gameField[row][i] != null) {
-                if (gameField[row][i].equals(GameSign.SIGN_X.toString())) countX++;
-                if (gameField[row][i].equals(GameSign.SIGN_O.toString())) countO++;
-            }
-        }
-        if (countX == 3) return GameSign.SIGN_X;
-        if (countO == 3) return GameSign.SIGN_O;
+        if (countSignsInRow(GameSign.SIGN_X, row, this.gameField) == 3) return GameSign.SIGN_X;
+        if (countSignsInRow(GameSign.SIGN_O, row, this.gameField) == 3) return GameSign.SIGN_O;
         return null;
     }
 
     private GameSign getColWinner (int col) {
-        int countX = 0;
-        int countO = 0;
-        for (int i = 0; i < 3; i++) {
-            if (gameField[i][col] != null) {
-                if (gameField[i][col].equals(GameSign.SIGN_X.toString())) countX++;
-                if (gameField[i][col].equals(GameSign.SIGN_O.toString())) countO++;
-            }
-        }
-        if (countX == 3) return GameSign.SIGN_X;
-        if (countO == 3) return GameSign.SIGN_O;
+        if (countSignsInCol(GameSign.SIGN_X, col, this.gameField) == 3) return GameSign.SIGN_X;
+        if (countSignsInCol(GameSign.SIGN_O, col, this.gameField) == 3) return GameSign.SIGN_O;
         return null;
     }
 
     private GameSign getDiagonalWinner () {
-        int countX = 0;
-        int countO = 0;
+        if (countSignInDownDiagonal(GameSign.SIGN_X, this.gameField) == 3) return GameSign.SIGN_X;
+        if (countSignInDownDiagonal(GameSign.SIGN_O, this.gameField) == 3) return GameSign.SIGN_O;
 
-        for (int i = 0; i < 3; i++) {
-            if (gameField[i][i] != null) {
-                if (gameField[i][i].equals(GameSign.SIGN_X.toString())) countX++;
-                if (gameField[i][i].equals(GameSign.SIGN_O.toString())) countO++;
-            }
-        }
-        if (countX == 3) return GameSign.SIGN_X;
-        if (countO == 3) return GameSign.SIGN_O;
-
-        // reset counters for second diagonal
-        countX = 0;
-        countO = 0;
-
-        // modulo gets [0][2], [1][1], [2][0]
-        for (int i = 0; i < 3; i++) {
-            int y = (2 * i -1) % 3;
-            // turns negative remainder into modulo result
-            if (y<0) y = 2;
-            System.out.println("checking: " + i + ", " + y);
-            if (gameField[i][y] != null) {
-
-                if (gameField[i][y].equals(GameSign.SIGN_X.toString())) countX++;
-                if (gameField[i][y].equals(GameSign.SIGN_O.toString())) countO++;
-            }
-        }
-
-        if (countX == 3) return GameSign.SIGN_X;
-        if (countO == 3) return GameSign.SIGN_O;
+        if (countSignInUpDiagonal(GameSign.SIGN_X, this.gameField) == 3) return GameSign.SIGN_X;
+        if (countSignInUpDiagonal(GameSign.SIGN_O, this.gameField) == 3) return GameSign.SIGN_O;
         return null;
     }
 
@@ -244,14 +170,6 @@ public class Game {
             return true;
         }
         return false;
-        /*
-        if (players == null) {
-            return false;
-        } else if (players.size() == 2) {
-            return true;
-        }
-        return false;
-         */
     }
 
     private Player getRandomPlayer() {

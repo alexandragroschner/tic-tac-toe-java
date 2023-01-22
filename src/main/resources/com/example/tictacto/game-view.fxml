@@ -43,8 +43,6 @@
       <ImageView fx:id="player1pic" fitHeight="124.0" fitWidth="140.0" layoutX="35.0" layoutY="91.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="player2pic" fitHeight="118.0" fitWidth="140.0" layoutX="582.0" layoutY="91.0" pickOnBounds="true" preserveRatio="true" />
       <Button fx:id="newGame" layoutX="321.0" layoutY="353.0" mnemonicParsing="false" text="Restart Game" />
-      <Label layoutX="35.0" layoutY="230.0" text="Games won:" />
-      <Label layoutX="582.0" layoutY="230.0" text="Games won:" />
       <Label fx:id="player1gamesWon" layoutX="35.0" layoutY="259.0" />
       <Label fx:id="player2gamesWon" layoutX="582.0" layoutY="251.0" />
    </children>

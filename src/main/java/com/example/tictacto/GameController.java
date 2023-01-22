@@ -1,9 +1,6 @@
 package com.example.tictacto;
 
-import com.example.tictacto.model.Game;
-import com.example.tictacto.model.GameMode;
-import com.example.tictacto.model.GameSign;
-import com.example.tictacto.model.Player;
+import com.example.tictacto.model.*;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -18,6 +15,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 
 public class GameController {
@@ -99,7 +97,7 @@ public class GameController {
     }
 
     @FXML
-    private void initialize() {
+    private void initialize() throws Exception {
         this.game = playerSetupController.getGame();
 
         lt.setOnAction(event -> {
@@ -174,15 +172,18 @@ public class GameController {
         });
 
         // display stuff
-        currentplayername.setText(game.getCurrentPlayer().getName());
         player1pic.setImage(new Image(game.getPlayers().get(0).getProfilePicUrl()));
         player1name.setText(game.getPlayers().get(0).getName());
         player2pic.setImage(new Image(game.getPlayers().get(1).getProfilePicUrl()));
         player2name.setText(game.getPlayers().get(1).getName());
         updateScores();
 
-        //getNodeByRowColumnIndex(0,0,gameField).setText("bla");
+        // make initial computerplayer move
+        if (game.getCurrentPlayer() instanceof ComputerPlayer) {
+            clickAction(game);
+        }
 
+        currentplayername.setText(game.getCurrentPlayer().getName());
     }
 
     private void newGame() throws Exception {
@@ -190,7 +191,6 @@ public class GameController {
             b.setText("");
             b.setDisable(false);
         }
-        //game.setGameField(new String[3][3]);
         currentplayerlabel.setText("Current Player:");
 
         game = new Game(game.getPlayers(), game.getMode());
@@ -201,19 +201,27 @@ public class GameController {
 
         currentplayername.setText(game.getCurrentPlayer().getName());
         errorLabel.setText("");
+
+        // trigger initial computer player turn if necessary
+        if (game.getMode() == GameMode.HVC && game.getCurrentPlayer() instanceof ComputerPlayer) {
+            clickAction(game);
+        }
     }
 
     private void updateScores() {
-        player1gamesWon.setText(java.lang.String.valueOf(game.getPlayers().get(0).getGamesWon()));
-        player2gamesWon.setText(java.lang.String.valueOf(game.getPlayers().get(1).getGamesWon()));
+        player1gamesWon.setText("Games won:\n" + game.getPlayers().get(0).getGamesWon());
+        player2gamesWon.setText("Games won:\n" + game.getPlayers().get(1).getGamesWon());
     }
     private void endGame() throws Exception {
         errorLabel.setText("Winner is: " + game.getPlayerWithSign(game.getWinnerSign()).getName());
         currentplayername.setText("");
         currentplayerlabel.setText("");
 
-        // notify player that he won this game so that GameStats are created
-        game.getPlayerWithSign(game.getWinnerSign()).wonGame(game);
+        if (game.getPlayerWithSign(game.getWinnerSign()) instanceof HumanPlayer) {
+            // notify player that he won this game so that GameStats are created
+            ((HumanPlayer)game.getPlayerWithSign(game.getWinnerSign())).wonGame(game);
+        }
+
         updateScores();
     }
 
@@ -226,147 +234,133 @@ public class GameController {
 
     private void endGameIfOver(Game game) throws Exception {
         if (game.getWinnerSign() != null) {
+            for (Button b: buttons) {
+                b.setDisable(true);
+            }
             endGame();
         } else if (game.isTie()) {
+            for (Button b: buttons) {
+                b.setDisable(true);
+            }
             endTieGame();
         }
     }
 
+    private void clickAction(Game game) throws Exception {
+        if (game.getMode() == GameMode.HVC) {
+            ArrayList<Integer> position = ((ComputerPlayer) game.getCurrentPlayer()).makeTurn(game);
+            if (position == null) endTieGame();
+            getNodeByRowColumnIndex(position, gameField).setText(game.getNextPlayer().getSign().toString());
+            getNodeByRowColumnIndex(position, gameField).setDisable(true);
+        } else {
+            currentplayername.setText(game.getCurrentPlayer().getName() + "with sign: " + game.getCurrentPlayer().getSign());
+        }
+        endGameIfOver(game);
+    }
+
     private void clickLT() throws Exception {
-        if (game.makeTurn(0,0, game.getCurrentPlayer()) == 1) {
+        if (((HumanPlayer)game.getCurrentPlayer()).makeTurn(0,0, game) == 1) {
             // change button label to sign of current player
             lt.setText(game.getNextPlayer().getSign().toString());
             lt.setDisable(true);
-            currentplayername.setText(game.getCurrentPlayer().getName() + "with sign: " + game.getCurrentPlayer().getSign());
-
-            endGameIfOver(game);
-
-            if (game.getMode() == GameMode.HVC) {
-                getNodeByRowColumnIndex(game.makeComputerPlayerTurn(), gameField).setText("bla");
-            }
+            clickAction(game);
         } else {
             errorLabel.setText("Field already set. Try another one");
         }
     }
 
     private void clickLM() throws Exception {
-        if (game.makeTurn(0,1, game.getCurrentPlayer()) == 1) {
+        if (((HumanPlayer)game.getCurrentPlayer()).makeTurn(1,0, game) == 1) {
             // change button label to sign of current player
             lm.setText(game.getNextPlayer().getSign().toString());
             lm.setDisable(true);
-            currentplayername.setText(game.getCurrentPlayer().getName() + "with sign: " + game.getCurrentPlayer().getSign());
-
-            endGameIfOver(game);
+            clickAction(game);
         } else {
             errorLabel.setText("Field already set. Try another one");
         }
     }
     private void clickLB() throws Exception {
-        if (game.makeTurn(0,2, game.getCurrentPlayer()) == 1) {
+        if (((HumanPlayer)game.getCurrentPlayer()).makeTurn(2,0, game) == 1) {
             // change button label to sign of current player
             lb.setText(game.getNextPlayer().getSign().toString());
             lb.setDisable(true);
-            currentplayername.setText(game.getCurrentPlayer().getName() + "with sign: " + game.getCurrentPlayer().getSign());
-
-            endGameIfOver(game);
+            clickAction(game);
         } else {
             errorLabel.setText("Field already set. Try another one");
         }
     }
     private void clickMT() throws Exception {
-        if (game.makeTurn(1,0, game.getCurrentPlayer()) == 1) {
+        if (((HumanPlayer)game.getCurrentPlayer()).makeTurn(0,1, game) == 1) {
             // change button label to sign of current player
             mt.setText(game.getNextPlayer().getSign().toString());
             mt.setDisable(true);
-            currentplayername.setText(game.getCurrentPlayer().getName() + "with sign: " + game.getCurrentPlayer().getSign());
-
-            endGameIfOver(game);
+            clickAction(game);
         } else {
             errorLabel.setText("Field already set. Try another one");
         }
     }
     private void clickMM() throws Exception {
-        if (game.makeTurn(1,1, game.getCurrentPlayer()) == 1) {
+        if (((HumanPlayer)game.getCurrentPlayer()).makeTurn(1,1, game) == 1) {
             // change button label to sign of current player
             mm.setText(game.getNextPlayer().getSign().toString());
             mm.setDisable(true);
-            currentplayername.setText(game.getCurrentPlayer().getName() + "with sign: " + game.getCurrentPlayer().getSign());
-
-            endGameIfOver(game);
+            clickAction(game);
         } else {
             errorLabel.setText("Field already set. Try another one");
         }
     }
     private void clickMB() throws Exception {
-        if (game.makeTurn(1,2, game.getCurrentPlayer()) == 1) {
+        if (((HumanPlayer)game.getCurrentPlayer()).makeTurn(2,1, game) == 1) {
             // change button label to sign of current player
             mb.setText(game.getNextPlayer().getSign().toString());
             mb.setDisable(true);
-            currentplayername.setText(game.getCurrentPlayer().getName() + "with sign: " + game.getCurrentPlayer().getSign());
-
-            endGameIfOver(game);
+            clickAction(game);
         } else {
             errorLabel.setText("Field already set. Try another one");
         }
     }
     private void clickRT() throws Exception {
-        if (game.makeTurn(2,0, game.getCurrentPlayer()) == 1) {
+        if (((HumanPlayer)game.getCurrentPlayer()).makeTurn(0,2, game) == 1) {
             // change button label to sign of player i.e. "nextPlayer" because "makeTurn" already switched the players
             rt.setText(game.getNextPlayer().getSign().toString());
             rt.setDisable(true);
-            currentplayername.setText(game.getCurrentPlayer().getName() + "with sign: " + game.getCurrentPlayer().getSign());
-
-            endGameIfOver(game);
+            clickAction(game);
         } else {
             errorLabel.setText("Field already set. Try another one");
         }
     }
     private void clickRM() throws Exception {
-        if (game.makeTurn(2,1, game.getCurrentPlayer()) == 1) {
+        if (((HumanPlayer)game.getCurrentPlayer()).makeTurn(1,2, game) == 1) {
             // change button label to sign of current player
             rm.setText(game.getNextPlayer().getSign().toString());
             rm.setDisable(true);
-            currentplayername.setText(game.getCurrentPlayer().getName() + "with sign: " + game.getCurrentPlayer().getSign());
-
-            endGameIfOver(game);
+            clickAction(game);
         } else {
             errorLabel.setText("Field already set. Try another one");
         }
     }
     private void clickRB() throws Exception {
-        if (game.makeTurn(2,2, game.getCurrentPlayer()) == 1) {
+        if (((HumanPlayer)game.getCurrentPlayer()).makeTurn(2,2, game) == 1) {
             // change button label to sign of current player
             rb.setText(game.getNextPlayer().getSign().toString());
             rb.setDisable(true);
-            currentplayername.setText(game.getCurrentPlayer().getName() + "with sign: " + game.getCurrentPlayer().getSign());
-
-            endGameIfOver(game);
+            clickAction(game);
         } else {
             errorLabel.setText("Field already set. Try another one");
         }
     }
 
+    // gets a specific button by providing a position array of the gameField
     public Button getNodeByRowColumnIndex (ArrayList<Integer> position, GridPane gridPane) {
         Node result = null;
         ObservableList<Node> children = gridPane.getChildren();
 
         for (Node node : children) {
-            if(GridPane.getRowIndex(node) == position.get(0) && GridPane.getColumnIndex(node) == position.get(1)) {
+            if(Objects.equals(GridPane.getRowIndex(node), position.get(0)) && Objects.equals(GridPane.getColumnIndex(node), position.get(1))) {
                 result = node;
                 break;
             }
         }
-
         return (Button) result;
-    }
-
-    private void updateGameAfterTurn(int x, int y, GameSign sign, Player currentPlayer) {
-        System.out.println("prev player was " + game.getCurrentPlayer().getName());
-        //game.getGameField()[x][y] = sign.toString();
-        game.switchPlayerTurn(currentPlayer);
-        // set the label to the new current player name
-        currentplayername.setText(game.getCurrentPlayer().getName() + "with sign: " + game.getCurrentPlayer().getSign());
-
-        System.out.println("now the turn is with: " + game.getCurrentPlayer().getName());
     }
 }

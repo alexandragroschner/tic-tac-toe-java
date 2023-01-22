@@ -1,9 +1,6 @@
 package com.example.tictacto;
 
-import com.example.tictacto.model.Game;
-import com.example.tictacto.model.GameMode;
-import com.example.tictacto.model.GameSign;
-import com.example.tictacto.model.Player;
+import com.example.tictacto.model.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -92,14 +89,9 @@ public class PlayerSetupController {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }*/
-            game.addPlayer(new Player(name.getText(), GameSign.SIGN_X, profilePic.getImage().getUrl()));
-            game.addPlayer(new Player("Computer 1", GameSign.SIGN_O, new ProfilePicClient(profilePic).getProfilePic().getUrl()));
+            game.addPlayer(new HumanPlayer(name.getText(), GameSign.SIGN_X, profilePic.getImage().getUrl()));
+            game.addPlayer(new ComputerPlayer("Computer 1", GameSign.SIGN_O, new ProfilePicClient(profilePic).getProfilePic().getUrl()));
 
-            try {
-                loadGameView();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
         } else if (chosenModeText.getText().equals(GameMode.HVH.toString())) {
             System.out.println("H VS H");
             /*try {
@@ -110,9 +102,9 @@ public class PlayerSetupController {
 
             // TBD: do this prettier
             if (game.getPlayers().size() == 0) {
-                game.addPlayer(new Player(name.getText(), GameSign.SIGN_X, profilePic.getImage().getUrl()));
+                game.addPlayer(new HumanPlayer(name.getText(), GameSign.SIGN_X, profilePic.getImage().getUrl()));
             } else {
-                game.addPlayer(new Player(name.getText(), GameSign.SIGN_O, profilePic.getImage().getUrl()));
+                game.addPlayer(new HumanPlayer(name.getText(), GameSign.SIGN_O, profilePic.getImage().getUrl()));
             }
 
             System.out.println("Added player " + name.getText());
@@ -120,16 +112,16 @@ public class PlayerSetupController {
             profilePic.setImage(new Image("loading.png"));
             new ProfilePicClient(profilePic).start();
 
-            if (game.isReady()) {
-                try {
-                    loadGameView();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-
         } else {
             System.out.println("Got: " + chosenModeText.getText());
+        }
+
+        if (game.isReady()) {
+            try {
+                loadGameView();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
 
     }
